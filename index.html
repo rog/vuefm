@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vuest</title>
+</head>
+<body>
+  <div id="app">
+    Hola {{ nombre }}!
+    <a :href="link" target="_blank">{{ label }}</a>
+  </div>
+  <script src="https://unpkg.com/vue"></script>
+  <script type="text/javascript">
+    let app = new Vue({
+      el: '#app',
+      data: {
+        nombre: 'Rog',
+        link: 'https://google.com',
+        label: 'Ir a Google'
+      }
+    })
+  </script>
+</body>
+<html>
