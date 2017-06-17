@@ -5,17 +5,23 @@
 </head>
 <body>
   <div id="app">
-    Hola {{ nombre }}!
-    <a :href="link" target="_blank">{{ label }}</a>
+    <template v-if="show">
+      <h1>Vuest</h1>
+      <h2>Learning vue.js</h2>
+      <a :href="link" target="_blank">{{ label }}</a>
+    </template>
+    <div v-show="!show">
+      <p>v-show add display none, no se puede usar con template</p>
+    </div>
   </div>
   <script src="https://unpkg.com/vue"></script>
   <script type="text/javascript">
     let app = new Vue({
       el: '#app',
       data: {
-        nombre: 'Rog',
         link: 'https://google.com',
-        label: 'Ir a Google'
+        label: 'Ir a Google',
+        show: true
       }
     })
   </script>
