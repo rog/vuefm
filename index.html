@@ -5,23 +5,29 @@
 </head>
 <body>
   <div id="app">
-    <template v-if="show">
-      <h1>Vuest</h1>
-      <h2>Learning vue.js</h2>
-      <a :href="link" target="_blank">{{ label }}</a>
+    <template>
+      <h1>{{ title | uppercase }}</h1>
+      <h2>{{ subtitle | lowercase }}</h2>
     </template>
-    <div v-show="!show">
-      <p>v-show add display none, no se puede usar con template</p>
-    </div>
   </div>
   <script src="https://unpkg.com/vue"></script>
   <script type="text/javascript">
     let app = new Vue({
       el: '#app',
       data: {
-        link: 'https://google.com',
-        label: 'Ir a Google',
-        show: true
+        title: 'Vue.js Framework',
+        subtitle: 'Learning filters with Vue.js',
+      },
+      filters: {
+        uppercase: (str) => {
+          return str.toUpperCase()
+        },
+        lowercase: (str) => {
+          return str.toLowerCase()
+        },
+        capitalize: (str) => {
+          return str.charAt(0).toUpperCase() + str.slice(1);
+        }
       }
     })
   </script>
