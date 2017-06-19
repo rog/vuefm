@@ -6,8 +6,9 @@
 <body>
   <div id="app">
     <template>
-      <h1>{{ title | uppercase }}</h1>
-      <h2>{{ subtitle | lowercase }}</h2>
+      <h1>Time: {{ counter }}</h1>
+      <button v-on:click="plus">Plus +1</button>
+      <button v-on:click="minus">Minus -1</button>
     </template>
   </div>
   <script src="https://unpkg.com/vue"></script>
@@ -15,19 +16,15 @@
     let app = new Vue({
       el: '#app',
       data: {
-        title: 'Vue.js Framework',
-        subtitle: 'Learning filters with Vue.js',
+        counter: 0
       },
-      filters: {
-        uppercase: (str) => {
-          return str.toUpperCase()
+      methods: {
+        plus () {
+          this.counter++
         },
-        lowercase: (str) => {
-          return str.toLowerCase()
+        minus () {
+          this.counter--
         },
-        capitalize: (str) => {
-          return str.charAt(0).toUpperCase() + str.slice(1);
-        }
       }
     })
   </script>
