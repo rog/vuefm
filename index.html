@@ -6,9 +6,28 @@
 <body>
   <div id="app">
     <template>
-      <h1>Time: {{ counter }}</h1>
-      <button v-on:click="plus">Plus +1</button>
-      <button v-on:click="minus">Minus -1</button>
+      <input type="text" name="nombre" placeholder="Ingresa tu nombre" v-model="nombre" />
+      <p>Tu nombre en mayuscula es: {{ nombre | uppercase }}</p>
+      <form @submit.prevent="submit">
+          <h2>Cuales son tus tecnologias favoritas?</h2>
+          <label>
+            <input v-model="tech" type="checkbox" id="vue" value="vue" />
+            Vue
+          </label>
+          <label>
+            <input v-model="tech" type="checkbox" id="react" value="react" />
+            React
+          </label>
+          <label>
+            <input v-model="tech" type="checkbox" id="angular" value="angular" />
+            Angular
+          </label>
+          <label>
+            <input v-model="tech" type="checkbox" id="backbone" value="backbone" />
+            Backbone
+          </label>
+          <button type="submit">Enviar</button>
+      </form>
     </template>
   </div>
   <script src="https://unpkg.com/vue"></script>
@@ -16,15 +35,18 @@
     let app = new Vue({
       el: '#app',
       data: {
-        counter: 0
+        nombre: '',
+        tech: []
+      },
+      filters: {
+        uppercase (str) {
+          return str.toUpperCase()
+        }
       },
       methods: {
-        plus () {
-          this.counter++
-        },
-        minus () {
-          this.counter--
-        },
+        submit() {
+          console.log(`Seleccionaste ${this.tech}`)
+        }
       }
     })
   </script>
