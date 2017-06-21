@@ -5,47 +5,40 @@
 </head>
 <body>
   <div id="app">
-    <template>
-      <input type="text" name="nombre" placeholder="Ingresa tu nombre" v-model="nombre" />
-      <p>Tu nombre en mayuscula es: {{ nombre | uppercase }}</p>
-      <form @submit.prevent="submit">
-          <h2>Cuales son tus tecnologias favoritas?</h2>
+    <form @submit.prevent="submit">
+        <h2>Cuales son tus tecnologias favoritas?</h2>
+        <template v-for="tech in techs">
           <label>
-            <input v-model="tech" type="checkbox" id="vue" value="vue" />
-            Vue
+            <input v-model="techSelected" type="checkbox" v-bind:id="tech.value" v-bind:value="tech.value"  />
+            {{ tech.name }}
           </label>
-          <label>
-            <input v-model="tech" type="checkbox" id="react" value="react" />
-            React
-          </label>
-          <label>
-            <input v-model="tech" type="checkbox" id="angular" value="angular" />
-            Angular
-          </label>
-          <label>
-            <input v-model="tech" type="checkbox" id="backbone" value="backbone" />
-            Backbone
-          </label>
-          <button type="submit">Enviar</button>
-      </form>
-    </template>
+        </template>
+        <button type="submit">Enviar</button>
+    </form>
   </div>
   <script src="https://unpkg.com/vue"></script>
   <script type="text/javascript">
     let app = new Vue({
       el: '#app',
       data: {
-        nombre: '',
-        tech: []
-      },
-      filters: {
-        uppercase (str) {
-          return str.toUpperCase()
-        }
+        techs: [{
+          name: 'Vue.js',
+          value: 'vue'
+        }, {
+          name: 'React.js',
+          value: 'react'
+        }, {
+          name: 'Angular.js',
+          value: 'angular'
+        }, {
+          name: 'Backbone.js',
+          value: 'backbone'
+        }],
+        techSelected: []
       },
       methods: {
         submit() {
-          console.log(`Seleccionaste ${this.tech}`)
+          console.log(this.techSelected)
         }
       }
     })
