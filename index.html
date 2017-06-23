@@ -1,70 +1,11 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Vuest</title>
-</head>
-<body>
-  <div id="app">
-    <form @submit.prevent="submit">
-        <h2>Cuales son tus tecnologias favoritas?</h2>
-        <template v-for="tech in techs">
-          <tech :tech="tech" @checked="selectTech"></tech>
-        </template>
-        <button type="submit">Enviar</button>
-    </form>
-  </div>
-  <script src="https://unpkg.com/vue"></script>
-  <script type="text/javascript">
-    Vue.component('tech', {
-      props: ['tech'],
-      methods: {
-        onchange (e) {
-          this.$emit('checked', this.tech.value, e.target.checked)
-        }
-      },
-      template: `
-        <div>
-          <label>
-            <input type="checkbox" v-bind:id="tech.value" v-bind:value="tech.value" @change="onchange" />
-            {{ tech.name }}
-          </label>
-        </div>
-      `
-    })
-
-    let app = new Vue({
-      el: '#app',
-      data: {
-        techs: [{
-          name: 'Vue.js',
-          value: 'vue'
-        }, {
-          name: 'React.js',
-          value: 'react'
-        }, {
-          name: 'Angular.js',
-          value: 'angular'
-        }, {
-          name: 'Backbone.js',
-          value: 'backbone'
-        }],
-        techSelected: []
-      },
-      methods: {
-        submit() {
-          console.log(this.techSelected)
-        },
-        selectTech (tech, checked) {
-          if (checked) {
-            this.techSelected.push(tech)
-          } else {
-            let i = this.techSelected.indexOf(tech)
-            this.techSelected.splice(i, 1)
-          }
-          console.log(this.techSelected)
-        }
-      }
-    })
-  </script>
-</body>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>vuefm</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="/dist/build.js"></script>
+  </body>
+</html>
