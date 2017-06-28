@@ -2,6 +2,8 @@
 #app
   img(src='./assets/logo.png')
   h1 VueFM
+  select(v-model="selectedCountry")
+    option(v-for="country in countries" :value="country.value") {{ country.name }}
   ul
     artist(v-for="artist in artists" v-bind:artist="artist" v-bind:key="artist.mbid")
 </template>
@@ -14,18 +16,34 @@ export default {
   name: 'app',
   data () {
     return {
-      artists: []
+      artists: [],
+      countries: [
+        {name: 'México', value: 'mexico'},
+        {name: 'España', value: 'spain'},
+        {name: 'Japón', value: 'japan'}
+      ],
+      selectedCountry: 'mexico'
     }
   },
   components: {
     Artist
   },
+  methods: {
+    refreshArtist() {
+      const self = this
+      getArtists(this.selectedCountry)
+        .then(function(artists) {
+          self.artists = artists
+        })
+    }
+  },
   mounted () {
-    const self = this
-    getArtists()
-      .then(function(artists) {
-        self.artists = artists
-      })
+    this.refreshArtist()
+  },
+  watch: {
+    selectedCountry() {
+      this.refreshArtist()
+    }
   }
 }
 </script>
