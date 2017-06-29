@@ -4,11 +4,13 @@
   h1 VueFM
   select(v-model="selectedCountry")
     option(v-for="country in countries" :value="country.value") {{ country.name }}
+  spinner(v-show="loading")
   ul
     artist(v-for="artist in artists" v-bind:artist="artist" v-bind:key="artist.mbid")
 </template>
 
 <script>
+import Spinner from './components/Spinner.vue'
 import Artist from './components/Artist.vue'
 import getArtists from './api'
 
@@ -22,18 +24,23 @@ export default {
         {name: 'España', value: 'spain'},
         {name: 'Japón', value: 'japan'}
       ],
-      selectedCountry: 'mexico'
+      selectedCountry: 'mexico',
+      loading: true
     }
   },
   components: {
-    Artist
+    Artist,
+    Spinner
   },
   methods: {
     refreshArtist() {
       const self = this
+      self.loading = true
+      self.artists = []
       getArtists(this.selectedCountry)
         .then(function(artists) {
           self.artists = artists
+          self.loading = false
         })
     }
   },
