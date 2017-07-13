@@ -1,4 +1,4 @@
-import vueFMMusicService from './vuefmMusic'
+import vueFMMusicService from './vuefm-music'
 
 const trackService = {}
 

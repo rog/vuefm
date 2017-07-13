@@ -14,15 +14,12 @@
         p
           small {{ searchMessage }}
         .columns
-          .column(v-for="t in tracks") {{ t.name }} - {{ t.artist }}
+          .column(v-for="t in tracks")
+            | {{ t.name }} - {{ t.artists[0].name }}
 </template>
 
 <script>
-const tracks = [
-  { name: 'Slide', artist: 'Calvin Harris'},
-  { name: 'Heroes', artist: 'David Bowie'},
-  { name: 'Gold Soundz', artist: 'Pavement'},
-]
+import trackService from './services/track'
 
 export default {
   name: 'app',
@@ -34,7 +31,11 @@ export default {
   },
   methods: {
     search () {
-      this.tracks = tracks
+      if (!this.seachQuery) { return }
+      trackService.search(this.seachQuery)
+        .then(res => {
+          this.tracks = res.tracks.items
+        })
     }
   },
   computed: {
