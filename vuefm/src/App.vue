@@ -12,28 +12,38 @@
           a.button.is-info.is-large(@click="search") Buscar
           a.button.is-danger.is-large &times;
       .container
-        p
-          small {{ searchMessage }}
-        .columns
-          .column(v-for="t in tracks")
-            | {{ t.name }} - {{ t.artists[0].name }}
+        VueFmNotification(v-show="showNotification" :message="searchMessage")
+        .columns.is-multiline
+          .column.is-one-quarter(v-for="t in tracks")
+            VueFmTrack(:track="t")
     VueFmFooter
 </template>
 
 <script>
-import VueFmFooter from './components/layout/Footer.vue'
-import VueFmHeader from './components/layout/Header.vue'
-
+import VueFmFooter from '@/components/layout/Footer.vue'
+import VueFmHeader from '@/components/layout/Header.vue'
+import VueFmNotification from '@/components/shared/Notification.vue'
+import VueFmTrack from '@/components/Track.vue'
 
 import trackService from './services/track'
 
 export default {
   name: 'app',
-  components: { VueFmFooter, VueFmHeader },
+  components: { VueFmFooter, VueFmHeader, VueFmNotification, VueFmTrack },
   data () {
     return {
       seachQuery: '',
-      tracks: []
+      tracks: [],
+      showNotification: false
+    }
+  },
+  watch: {
+    showNotification () {
+      if (this.showNotification) {
+        setTimeout(() => {
+          this.showNotification = false
+        }, 3000)
+      }
     }
   },
   methods: {
@@ -41,12 +51,15 @@ export default {
       if (!this.seachQuery) { return }
       trackService.search(this.seachQuery)
         .then(res => {
+          this.showNotification = res.tracks.total === 0
           this.tracks = res.tracks.items
         })
     }
   },
   computed: {
     searchMessage () {
+      let tracksLength = this.tracks.length
+      this.showNotification = (tracksLength > 0)
       return `Found: ${this.tracks.length}`
     }
   }
