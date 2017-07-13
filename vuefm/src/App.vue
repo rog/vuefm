@@ -1,7 +1,8 @@
 <template lang="pug">
   #app
     VueFmHeader
-    section.section
+    VueFmLoader(v-show="isLoading")
+    section.section(v-show="!isLoading")
       nav.nav.has-shadow
         .container
           input.input.is-large(
@@ -22,18 +23,27 @@
 <script>
 import VueFmFooter from '@/components/layout/Footer.vue'
 import VueFmHeader from '@/components/layout/Header.vue'
-import VueFmNotification from '@/components/shared/Notification.vue'
 import VueFmTrack from '@/components/Track.vue'
+
+import VueFmNotification from '@/components/shared/Notification.vue'
+import VueFmLoader from '@/components/shared/Loader.vue'
 
 import trackService from './services/track'
 
 export default {
   name: 'app',
-  components: { VueFmFooter, VueFmHeader, VueFmNotification, VueFmTrack },
+  components: {
+    VueFmFooter,
+    VueFmHeader,
+    VueFmNotification,
+    VueFmTrack,
+    VueFmLoader
+  },
   data () {
     return {
       seachQuery: '',
       tracks: [],
+      isLoading: false,
       showNotification: false
     }
   },
@@ -49,10 +59,12 @@ export default {
   methods: {
     search () {
       if (!this.seachQuery) { return }
+      this.isLoading = true
       trackService.search(this.seachQuery)
         .then(res => {
           this.showNotification = res.tracks.total === 0
           this.tracks = res.tracks.items
+          this.isLoading = false
         })
     }
   },
