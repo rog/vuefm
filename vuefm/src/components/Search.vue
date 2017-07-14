@@ -1,11 +1,13 @@
 <template lang="pug">
   main
-    VueFmLoader(v-show="isLoading")
-    VueFmNotification(
-      v-show="showNotification"
-      :typeNotification="typeNotification"
-    )
-      p(slot="body") {{ searchMessage }}
+    transition(name="move")
+      VueFmLoader(v-show="isLoading")
+    transition(name="move")
+      VueFmNotification(
+        v-show="showNotification"
+        :typeNotification="typeNotification"
+      )
+        p(slot="body") {{ searchMessage }}
     section.section(v-show="!isLoading")
       nav.nav
         .container
