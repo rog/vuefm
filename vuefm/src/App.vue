@@ -2,8 +2,13 @@
   #app
     VueFmHeader
     VueFmLoader(v-show="isLoading")
+    VueFmNotification(
+      v-show="showNotification"
+      :typeNotification="typeNotification"
+    )
+      p(slot="body") {{ searchMessage }}
     section.section(v-show="!isLoading")
-      nav.nav.has-shadow
+      nav.nav
         .container
           input.input.is-large(
               type="text",
@@ -13,10 +18,13 @@
           a.button.is-info.is-large(@click="search") Buscar
           a.button.is-danger.is-large &times;
       .container
-        VueFmNotification(v-show="showNotification" :message="searchMessage")
         .columns.is-multiline
           .column.is-one-quarter(v-for="t in tracks")
-            VueFmTrack(:track="t")
+            VueFmTrack(
+              :class="{ 'is-active': t.id === selectedTrack }",
+              :track="t",
+              @select="setSelectedTrack"
+            )
     VueFmFooter
 </template>
 
@@ -44,7 +52,10 @@ export default {
       seachQuery: '',
       tracks: [],
       isLoading: false,
-      showNotification: false
+      showNotification: false,
+      typeNotification: 0,
+      notificationMessage: '',
+      selectedTrack: ''
     }
   },
   watch: {
@@ -58,26 +69,36 @@ export default {
   },
   methods: {
     search () {
-      if (!this.seachQuery) { return }
+      if (!this.seachQuery) {
+        this.showNotification = true
+        this.typeNotification = 0
+        return
+      }
       this.isLoading = true
       trackService.search(this.seachQuery)
         .then(res => {
-          this.showNotification = res.tracks.total === 0
+          this.showNotification = true
+          this.typeNotification = res.tracks.total === 0 ? 0 : 1
           this.tracks = res.tracks.items
           this.isLoading = false
         })
+    },
+    setSelectedTrack (id) {
+      this.selectedTrack = id
     }
   },
   computed: {
     searchMessage () {
       let tracksLength = this.tracks.length
-      this.showNotification = (tracksLength > 0)
-      return `Found: ${this.tracks.length}`
+      return (tracksLength === 0) ? 'No songs found' : `Found: ${this.tracks.length}`
     }
   }
 }
 </script>
 
 <style lang="scss">
-@import "./scss/main.scss"
+@import "./scss/main.scss";
+.is-active {
+  border: 3px solid #23d160;
+}
 </style>
