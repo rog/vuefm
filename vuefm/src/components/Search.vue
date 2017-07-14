@@ -10,10 +10,11 @@
       nav.nav
         .container
           input.input.is-large(
-              type="text",
-              placeholder="Seach song",
-              v-model="seachQuery"
-            )
+            type="text",
+            placeholder="Seach song",
+            v-model="searchQuery",
+            @keyup.enter="search"
+          )
           a.button.is-info.is-large(@click="search") Buscar
           a.button.is-danger.is-large &times;
       .container.tracks
@@ -43,7 +44,7 @@ export default {
   },
   data () {
     return {
-      seachQuery: '',
+      searchQuery: '',
       tracks: [],
       isLoading: false,
       showNotification: false,
@@ -63,13 +64,13 @@ export default {
   },
   methods: {
     search () {
-      if (!this.seachQuery) {
+      if (!this.searchQuery) {
         this.showNotification = true
         this.typeNotification = 0
         return
       }
       this.isLoading = true
-      trackService.search(this.seachQuery)
+      trackService.search(this.searchQuery)
         .then(res => {
           this.showNotification = true
           this.typeNotification = res.tracks.total === 0 ? 0 : 1
