@@ -17,7 +17,7 @@
             )
           a.button.is-info.is-large(@click="search") Buscar
           a.button.is-danger.is-large &times;
-      .container
+      .container.tracks
         .columns.is-multiline
           .column.is-one-quarter(v-for="t in tracks")
             VueFmTrack(
@@ -100,5 +100,8 @@ export default {
 @import "./scss/main.scss";
 .is-active {
   border: 3px solid #23d160;
+}
+.tracks {
+  margin-top: 35px;
 }
 </style>

@@ -12,7 +12,7 @@ export default {
   },
   computed: {
     classObject () {
-      return (this.typeNotification === 0) ? 'is-danger' : 'is-info'
+      return (this.typeNotification === 0) ? 'is-danger' : 'is-success'
     }
   }
 }

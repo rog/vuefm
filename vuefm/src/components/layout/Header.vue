@@ -11,4 +11,12 @@
       .container.has-text-centered
         h1.title VueFM
         h2.subtitle Vue music search
+        VueFmPlayer
 </template>
+
+<script>
+import VueFmPlayer from '@/components/Player.vue'
+export default {
+  components: { VueFmPlayer }
+}
+</script>
