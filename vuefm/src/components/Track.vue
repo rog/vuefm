@@ -22,15 +22,14 @@
               span.icon.is-small 🌎
 </template>
 <script>
+import trackMixin from '@/mixins/track'
+
 export default {
+  mixins: [ trackMixin ],
   props: {
     track: { type: Object, required: true }
   },
   methods: {
-    selectTrack () {
-      this.$emit('select', this.track.id)
-      this.$bus.$emit('set-track', this.track)
-    },
     goToTrack (id) {
       this.$router.push({ name: 'track', params: {id} })
     }

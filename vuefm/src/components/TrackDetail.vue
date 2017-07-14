@@ -1,16 +1,36 @@
 <template lang="pug">
 .container
-  .columns
-    .column.is-5.is-offset-4
-      VueFmTrack(:track="track")
+  .columns(v-if="track && track.album")
+    .column.is-3.has-text-centered
+      figure.media-left
+        p.image
+          img(:src="track.album.images[0].url")
+        p
+          a.button.is-primary.is-large(@click="selectTrack")
+            span.icon ▶️
+    .column.is-8
+      .panel
+        .panel-heading
+          h1.title {{ track.name }}
+        .panel-block
+          article.media
+            .media-content
+              .content
+                ul(v-for="(v, k) in track")
+                  li
+                    strong {{ k }}:&nbsp;
+                    span {{ v }}
+              nav.level
+                .level-left
+                  a.level-item
 </template>
 
 <script>
-import VueFmTrack from '@/components/Track.vue'
 import trackService from '@/services/track'
+import trackMixin from '@/mixins/track'
 
 export default {
-  components: { VueFmTrack },
+  mixins: [ trackMixin ],
   data () {
     return {
       track: {}
@@ -23,7 +43,6 @@ export default {
       this.track = res
     })
   }
-
 }
 </script>
 <style lang="scss" scoped>
